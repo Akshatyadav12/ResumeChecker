@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ResumeChecker AI Workspace</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f5ff;--pan:#fff;--tx:#241f3a;--mu:#7a7494;--bd:#e4def7;--g:linear-gradient(135deg,#7c3aed,#ec4899 60%,#f59e0b);--a:#7c3aed;--b:#ec4899;--c:#06b6d4;--sb:linear-gradient(180deg,#2a1065,#4c1d95 55%,#831843);box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12101c;--pan:#1c1830;--tx:#efeaff;--mu:#a79fc4;--bd:#2f2850}}
+:root[data-theme="dark"]{--bg:#12101c;--pan:#1c1830;--tx:#efeaff;--mu:#a79fc4;--bd:#2f2850}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:var(--bg);color:var(--tx);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer}
+.app{display:flex;height:100%}.app[hidden]{display:none}
+.sb{width:265px;background:var(--sb);color:#fff;display:flex;flex-direction:column;padding:12px;gap:8px;flex-shrink:0;transition:.25s;overflow:auto}
+.logo{font-weight:800;font-size:18px;display:flex;gap:8px;align-items:center}
+.logo b{background:var(--g);width:30px;height:30px;border-radius:9px;display:grid;place-items:center}
+.sh{font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.65;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.sh button{background:#ffffff26;border:0;color:#fff;border-radius:8px;width:24px;height:24px}
+.pj,.it{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:10px;cursor:pointer;font-size:13.5px;opacity:.85}
+.pj.on,.pj:hover,.it.on,.it:hover{background:#ffffff26;opacity:1}
+.pj i{font-style:normal;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.it span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.it b{opacity:.5}
+.grow{flex:1;min-height:10px}
+.nb{background:#ffffff1f;border:1px solid #ffffff33;color:#fff;border-radius:12px;padding:8px 10px;text-align:left}
+.nb:hover{background:#ffffff33}
+.me{display:flex;gap:9px;align-items:center;background:#ffffff14;border-radius:12px;padding:8px;font-size:13px}
+.me img{width:34px;height:34px;border-radius:50%}.me small{opacity:.75;display:block}
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.top{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--bd);background:var(--pan)}
+.top h2{margin:0;font-size:15px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:10px;padding:6px 10px}
+.ib.pri{background:var(--g);color:#fff;border:0}
+#menu{display:none}
+.msgs{flex:1;overflow:auto;padding:18px 14px}.in{max-width:760px;margin:0 auto}
+.hero{text-align:center;padding:22px 0 8px}
+.hero h1{font-size:30px;margin:0 0 4px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mu);margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;text-align:left}
+.tile{border:1px solid var(--bd);background:var(--pan);border-radius:16px;padding:12px;cursor:pointer;transition:.15s}
+.tile:hover{transform:translateY(-3px);box-shadow:0 8px 22px #7c3aed26}
+.tile i{font-style:normal;font-size:20px;display:grid;place-items:center;width:38px;height:38px;border-radius:12px;margin-bottom:6px}
+.tile b{display:block;font-size:14px}.tile span{color:var(--mu);font-size:12.5px}
+.m{display:flex;gap:9px;margin:13px 0}.m.u{flex-direction:row-reverse}
+.av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;color:#fff;font-size:13px;background:var(--g)}
+.m.u .av{background:var(--c)}
+.bu{max-width:100%;padding:10px 14px;border-radius:18px;background:var(--pan);border:1px solid var(--bd);overflow-wrap:anywhere}
+.m>div:last-child{max-width:88%}
+.m.u .bu{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border:0}
+.bu p{margin:0 0 8px}.bu p:last-child{margin:0}.bu ul,.bu ol{margin:4px 0 8px;padding-left:22px}
+.bu h3{margin:8px 0 4px;font-size:16px}.bu code{background:var(--bg);padding:1px 5px;border-radius:6px}
+.act{margin-top:4px;display:flex;gap:2px;flex-wrap:wrap}.act button{border:0;background:none;color:var(--mu);font-size:12px;padding:2px 6px}.act button:hover{color:var(--b)}
+.dots span{display:inline-block;width:8px;height:8px;margin:0 2px;border-radius:50%;background:var(--b);animation:b 1s infinite}
+.dots span:nth-child(2){animation-delay:.15s;background:var(--a)}.dots span:nth-child(3){animation-delay:.3s;background:#f59e0b}
+@keyframes b{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.card{margin:6px 0;padding:12px;border-radius:14px;background:var(--bg);border:1px solid var(--bd)}
+.ac{display:flex;gap:10px;align-items:center;margin:6px 0;padding:10px 12px;border-radius:14px;border:1px solid var(--bd);background:var(--bg);cursor:pointer;color:var(--tx)}
+.ac:hover{border-color:var(--b)}.ac i{font-style:normal;font-size:20px;width:38px;height:38px;border-radius:11px;background:var(--g);display:grid;place-items:center}
+.ac small{display:block;color:var(--mu)}
+.sc{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center}
+.ring span{width:64px;height:64px;border-radius:50%;background:var(--pan);display:grid;place-items:center;font-size:23px;font-weight:800}
+.chip{display:inline-block;padding:3px 10px;margin:2px 3px 2px 0;border-radius:14px;font-size:12.5px;color:#fff}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:6px;margin-top:8px}
+.sg div{padding:6px 8px;border-radius:10px;font-size:12.5px;background:var(--pan);border:1px solid var(--bd)}
+.bar{height:9px;border-radius:6px;background:var(--bd);overflow:hidden;margin:4px 0}.bar i{display:block;height:100%;background:var(--g)}
+.cmp{padding:8px 14px 12px}
+.chips{display:flex;gap:6px;overflow:auto;margin-bottom:8px}
+.chips button{white-space:nowrap;border:1px solid var(--bd);background:var(--pan);color:var(--tx);border-radius:20px;padding:5px 12px;font-size:13px}
+.chips button:hover{border-color:var(--b);color:var(--b)}
+.box{display:flex;gap:8px;align-items:flex-end;background:var(--pan);border:1px solid var(--bd);border-radius:20px;padding:8px 10px}
+.box:focus-within{border-color:var(--a);box-shadow:0 0 0 3px #7c3aed26}
+.box textarea{flex:1;border:0;outline:0;resize:none;background:none;color:var(--tx);font:inherit;max-height:150px;padding:4px}
+.send{border:0;background:var(--g);color:#fff;width:38px;height:38px;border-radius:50%;font-size:16px;flex-shrink:0}
+.att{border:0;background:none;font-size:19px;color:var(--mu)}
+.note{text-align:center;color:var(--mu);font-size:12px;margin-top:5px}
+.pn{width:0;overflow:hidden;background:var(--pan);border-left:1px solid var(--bd);display:flex;flex-direction:column;transition:.25s;flex-shrink:0}
+.pn.open{width:430px}
+.pn>*{min-width:430px}
+.tabs{display:flex;border-bottom:1px solid var(--bd)}.tabs button{flex:1;padding:10px;border:0;background:none;color:var(--mu);border-bottom:3px solid transparent}
+.tabs button.on{color:var(--a);border-color:var(--b);font-weight:600}
+.pb{flex:1;overflow:auto;padding:12px}
+.tb{display:flex;gap:4px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--bd)}
+.tb button{border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:9px;padding:4px 9px;font-size:12.5px}
+.doc{border-radius:12px}
+#aed{width:100%;min-height:60vh}
+.pb label,.md label{display:block;font-size:12.5px;color:var(--mu);margin-bottom:9px}
+.pb input,.pb textarea,.md input,.md textarea,.md select{display:block;width:100%;margin-top:3px;padding:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+textarea{resize:vertical}
+.mo{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:70;padding:12px}
+.md{background:var(--pan);border-radius:20px;padding:18px;width:100%;max-width:640px;max-height:92%;overflow:auto;border-top:5px solid var(--b)}
+.md h3{margin:0 0 10px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.cat{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin:12px 0 6px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#241f3a;color:#fff;padding:8px 16px;border-radius:20px;font-size:13px;display:none;z-index:50}
+@media(max-width:900px){.sb{position:fixed;z-index:9;height:100%;left:-285px}.sb.open{left:0}#menu{display:block}.pn.open{position:fixed;inset:0;width:100%;z-index:10}.pn>*{min-width:0}}
+
+/* ===== editorial skin (cream / black / gold) ===== */
+:root{--bg:#f1e9de;--pan:#faf6ef;--tx:#0b0b0b;--mu:#7b7365;--bd:#ddd2c1;--g:#0b0b0b;--gt:#f1e9de;--a:#0b0b0b;--b:#c9a45c;--c:#8a7a5c;--sb:#0b0b0b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0a0a;--pan:#141414;--tx:#efe7d8;--mu:#9a917f;--bd:#2a2620;--g:#c9a45c;--gt:#0a0a0a;--a:#c9a45c}}
+:root[data-theme="dark"]{--bg:#0a0a0a;--pan:#141414;--tx:#efe7d8;--mu:#9a917f;--bd:#2a2620;--g:#c9a45c;--gt:#0a0a0a;--a:#c9a45c}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.send,.ib.pri,.av,.ac i,.logo b{color:var(--gt)}
+.m.u .bu{background:var(--g);color:var(--gt)}
+.box:focus-within{border-color:var(--b);box-shadow:0 0 0 3px #c9a45c33}
+.tile:hover{box-shadow:0 8px 22px #c9a45c40}
+.hero h1,.logo,.md h3{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;letter-spacing:.02em;text-transform:uppercase}
+.hero h1{font-size:clamp(34px,6vw,60px)}
+.logo{font-size:20px}.sb{border-right:1px solid #ffffff14}
+.ini{width:34px;height:34px;border-radius:50%;background:#c9a45c;color:#0a0a0a;display:grid;place-items:center;font-weight:800}
+/* ===== lamp login ===== */
+#lamp{position:fixed;inset:0;z-index:40;background:#0a0f1a;color:#e8ecf4;overflow:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;--lc:#f5c542}
+#lamp[hidden]{display:none}
+.lt{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(28px,5vw,52px);margin:0 0 14px;text-align:center}.lt span{color:#e9b872}
+.lw{width:100%;max-width:980px;border:2px solid #f3f3f3;border-radius:22px;background:#0b111b;display:grid;grid-template-columns:1.05fr 1fr;overflow:hidden;position:relative;min-height:540px}
+.scene{position:relative;display:flex;justify-content:center;align-items:flex-end;overflow:hidden;transition:background .6s}
+.scene svg{width:min(100%,330px);height:100%;max-height:540px}
+.cone,.glow{opacity:0;transition:opacity .6s}.lon .cone,.lon .glow{opacity:1}
+.bulb{fill:#262b36;transition:fill .4s}.lon .bulb{fill:var(--lc);filter:drop-shadow(0 0 8px var(--lc))}
+.lon .scene{background:radial-gradient(circle at 50% 28%,color-mix(in srgb,var(--lc) 16%,transparent),transparent 62%)}
+#chain{transition:transform .18s;cursor:pointer}#chain.pull{transform:translateY(16px)}
+.dust{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--lc);opacity:0;animation:fl 7s ease-in-out infinite;transition:opacity .6s}.lon .dust{opacity:.8}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
+.hint{position:absolute;left:0;right:0;top:14px;text-align:center;font-size:13px;color:#9aa6bd;transition:opacity .4s;animation:pl 2s infinite}
+@keyframes pl{50%{opacity:.45}}
+.lcard{margin:22px;padding:22px;border-radius:18px;background:#0f1520;border:1px solid #ffffff14;opacity:0;transform:translateX(24px);pointer-events:none;transition:.7s;box-shadow:0 0 44px color-mix(in srgb,var(--lc) 16%,transparent);align-self:center}
+.lon .lcard{opacity:1;transform:none;pointer-events:auto}
+.ltabs{display:flex;background:#0a0f18;border-radius:12px;padding:4px;margin-bottom:14px}.ltabs button{flex:1;border:0;background:none;color:#8d99b0;padding:9px;border-radius:9px;font-size:13px}.ltabs button.sel{background:#252c3b;color:#fff}
+.lcard h2{margin:0;text-align:center;font-size:22px;color:#fff}.lcard p{margin:2px 0 14px;text-align:center;font-size:12.5px;color:#7d889e}
+.f{display:flex;align-items:center;gap:10px;background:#0a0f18;border:1px solid #ffffff12;border-radius:12px;padding:0 12px;margin-bottom:10px}
+.f input{flex:1;background:none;border:0;outline:0;color:#e8ecf4;padding:12px 0;font:inherit;font-size:14px;min-width:0}.f:focus-within{border-color:var(--lc)}.f b{cursor:pointer;opacity:.7}
+#fn,#fph{display:none}.up #fn,.up #fph{display:flex}#fcn{display:none}.up #fcn{display:block}#fcn label{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:#9aa6bd;margin-bottom:8px}#fcn input{accent-color:var(--lc);margin-top:2px}
+.lr{display:flex;justify-content:space-between;font-size:12px;color:#9aa6bd;margin:2px 0 10px}.lr a{color:var(--lc);cursor:pointer}.lr input{accent-color:var(--lc)}
+#lerr{color:#ff8a8a;font-size:12.5px;min-height:18px;margin-bottom:4px}
+.gs{width:100%;padding:13px;border:0;border-radius:12px;background:var(--lc);color:#0b0b0b;font-weight:700;font-size:15px;transition:background .4s,box-shadow .4s;box-shadow:0 6px 24px color-mix(in srgb,var(--lc) 40%,transparent)}
+.or{text-align:center;font-size:11px;color:#7d889e;margin:12px 0 8px}
+.soc{display:flex;gap:8px}.soc button{flex:1;padding:10px;border-radius:11px;border:1px solid #ffffff14;background:#0a0f18;color:#e8ecf4;font-size:13px}.soc button:disabled{opacity:.4;cursor:default}
+.lnote{font-size:11px;color:#6f7a90;margin-top:10px;text-align:center}
+@media(max-width:760px){.lw{grid-template-columns:1fr}.scene{height:290px}.lcard{margin:0 14px 18px}}
+/* ===== loader ===== */
+#loader{position:fixed;inset:0;z-index:60;background:#0a0a0a;display:grid;place-items:center;transition:transform .7s cubic-bezier(.7,0,.2,1)}
+#loader[hidden]{display:none}#loader.out{transform:translateY(-100%)}
+.ldw{position:relative;width:300px;height:150px;display:grid;place-items:center}
+.pcw{position:absolute;width:120px;height:120px;display:grid;place-items:center;transition:.5s}.pcw svg{position:absolute;inset:0;transform:rotate(-90deg)}
+#pc{font-family:Anton,Impact,sans-serif;color:#d9b873;font-size:30px}
+#hl{position:absolute;font-family:Caveat,cursive;font-size:64px;color:#d9b873;white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path 1.2s ease}
+#loader.hi .pcw{opacity:0;transform:scale(.8)}#loader.hi #hl{clip-path:inset(0 0 0 0)}
+/* ===== landing site ===== */
+#site{position:fixed;inset:0;z-index:20;overflow:auto;background:#f1e9de;color:#0b0b0b}
+#site[hidden]{display:none}
+.nv{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:14px 28px;font-size:12px;letter-spacing:.14em;background:#f1e9deee;backdrop-filter:blur(8px)}
+.nv a{margin-left:24px;cursor:pointer;font-weight:600}.nv a:hover{color:#a8863f}.sgn{font-family:Caveat,cursive;font-size:28px;letter-spacing:0}
+.hr{min-height:calc(100vh - 56px);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 16px 70px}
+.hello{font-family:Caveat,cursive;font-size:34px;color:#a8863f;margin-bottom:4px}
+.big{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:clamp(90px,24vw,380px);line-height:.9;margin:0;transform:scaleY(1.12);cursor:default}
+.big:hover{filter:url(#wob)}
+.big2{font-family:Anton,Impact,"Arial Narrow",sans-serif;font-weight:400;font-size:clamp(34px,6.5vw,92px);margin:0;line-height:1;letter-spacing:.02em}
+.trio{display:flex;gap:16px;font-size:11px;letter-spacing:.2em;font-weight:700;margin-top:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+.scr{position:absolute;left:28px;bottom:26px;font-size:10px;letter-spacing:.22em;text-align:left;font-weight:600}
+.bdg{position:absolute;right:28px;bottom:20px;width:104px;height:104px;display:grid;place-items:center}.bdg svg{position:absolute;animation:rot 14s linear infinite}.bdg span{font-size:26px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.cta{margin-top:24px;background:#0b0b0b;color:#f1e9de;border:0;padding:14px 26px;border-radius:40px;letter-spacing:.16em;font-size:12px;font-weight:700}.cta:hover{background:#a8863f}
+.ab{background:#0a0a0a;color:#efe7d8;padding:90px 28px}
+.abh{text-align:center;font-family:Anton,Impact,sans-serif;letter-spacing:.06em;font-size:clamp(30px,5vw,54px);color:#d9b873}
+.abl{height:1px;background:#d9b873;max-width:520px;margin:12px auto 0;position:relative}.abl:after{content:"";position:absolute;left:50%;top:-4px;width:9px;height:9px;border-radius:50%;background:#d9b873;transform:translateX(-50%)}
+.gr{display:grid;grid-template-columns:minmax(220px,340px) 1fr;gap:44px;max-width:1080px;margin:46px auto 0;align-items:center}
+.pf{aspect-ratio:3/4;border-radius:18px;border:1px solid #d9b87355;display:grid;place-items:center;font-family:Anton,Impact,sans-serif;font-size:clamp(100px,16vw,200px);color:#d9b873;background:radial-gradient(circle at 50% 30%,#2a2418,#0a0a0a)}
+.ab h3{font-family:Inter,sans-serif;font-weight:800;font-size:clamp(26px,4.4vw,52px);line-height:1.08;text-transform:uppercase;margin:0 0 16px;letter-spacing:0}.ab h3 em{font-style:normal;color:#d9b873}
+.ab p{color:#b9b09c;max-width:560px;margin:0 0 10px}
+.inf{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;font-size:11px;letter-spacing:.14em;color:#9a917f}.inf b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:30px;color:#d9b873;letter-spacing:.02em}
+.jn{background:#f1e9de;padding:80px 28px}.jn .abh{color:#0b0b0b}.jn .abl,.jn .abl:after{background:#a8863f}
+.jl{max-width:1080px;margin:36px auto 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.jc{position:relative;padding:20px;border:1px solid #0b0b0b22;border-radius:18px;cursor:pointer;background:#faf6ef;transition:.2s}.jc:hover{background:#0b0b0b;color:#f1e9de}
+.jc small{display:block;color:#7b7365;margin-bottom:4px}.jc b{display:block;font-size:17px;padding-right:24px}.jc span{position:absolute;right:16px;top:14px;font-size:20px}
+.demo{background:#fff4d6;color:#5a4300;border:1px solid #e9c46a;border-radius:10px;padding:8px 10px;font-size:12.5px;margin:8px 0}.demo b{font-size:20px;letter-spacing:.25em;color:#111}.otpin{font-size:26px;letter-spacing:.5em;text-align:center}.chs{display:flex;gap:8px;margin-bottom:10px}.chs label{flex:1;border:1px solid var(--bd);border-radius:12px;padding:9px;display:flex;gap:8px;align-items:center;margin:0;cursor:pointer;color:var(--tx);font-size:13px}.chs input{width:auto;margin:0}.tbl{width:100%;border-collapse:collapse;font-size:13px}.tbl th,.tbl td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}.tbl th{color:var(--mu);font-weight:600;font-size:11.5px;letter-spacing:.08em}.tw{overflow:auto;max-height:46vh;border:1px solid var(--bd);border-radius:12px}.own{margin-top:18px;padding:14px 16px;border:1px solid #d9b87355;border-radius:14px;font-size:13px;color:#b9b09c}.own b{color:#d9b873;display:block;font-size:11px;letter-spacing:.16em;margin-bottom:2px}.ftr{text-align:center;color:#7b7365;font-size:12px;padding:0 0 40px}
+@media(max-width:700px){.gr{grid-template-columns:1fr}.scr,.bdg{display:none}.nv a{margin-left:12px}.nv{padding:12px 16px}.inf{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="lamp" style="--lc:#f5c542">
+  <h1 class="lt">ResumeChecker <span>AI Login</span></h1>
+  <div class="lw" id="lw">
+    <div class="scene">
+      <svg id="lsv" viewBox="0 0 300 520" aria-label="Lamp">
+        <defs>
+          <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--lc);stop-opacity:.75"/><stop offset="1" style="stop-color:var(--lc);stop-opacity:0"/></linearGradient>
+          <radialGradient id="gg"><stop offset="0" style="stop-color:var(--lc);stop-opacity:.9"/><stop offset="1" style="stop-color:var(--lc);stop-opacity:0"/></radialGradient>
+        </defs>
+        <polygon class="cone" points="122,142 178,142 300,508 0,508" fill="url(#cg)"/>
+        <circle class="glow" cx="150" cy="138" r="64" fill="url(#gg)"/>
+        <ellipse cx="150" cy="508" rx="62" ry="9" fill="#05070b"/>
+        <rect x="124" y="494" width="52" height="13" rx="4" fill="#0e1118"/>
+        <rect x="146" y="150" width="8" height="346" fill="#10131a"/>
+        <rect x="146" y="478" width="8" height="7" fill="#c9a24a"/>
+        <path d="M86 142 C86 96 214 96 214 142 Z" fill="#161a23" stroke="#242a38"/>
+        <rect x="146" y="86" width="8" height="12" fill="#c9a24a"/>
+        <ellipse class="bulb" cx="150" cy="142" rx="16" ry="6"/>
+        <g id="chain"><line x1="196" y1="130" x2="196" y2="225" stroke="#8d8460" stroke-width="2" stroke-dasharray="2 2"/><rect x="190" y="225" width="12" height="30" rx="6" fill="#d9b873"/><rect x="172" y="130" width="56" height="140" fill="#000" fill-opacity="0"/></g>
+      </svg>
+      <div class="hint" id="hint">Pull the chain to switch on the light ✨</div>
+      <span id="dusts"></span>
+    </div>
+    <div class="lcard" id="lcard">
+      <div class="ltabs"><button id="tsi" class="sel">Sign In</button><button id="tsu">Create Account</button></div>
+      <h2 id="lh">Welcome back</h2><p id="lp">Sign in to continue to your workspace</p>
+      <label class="f" id="fn"><span>👤</span><input id="inm" placeholder="Full Name" autocomplete="name"></label>
+      <label class="f" id="fph"><span>📱</span><input id="iph" type="tel" placeholder="Phone number (+91 98765 43210)" autocomplete="tel"></label>
+      <label class="f"><span>✉️</span><input id="iem" type="email" placeholder="Email Address" autocomplete="email"></label>
+      <label class="f"><span>🔒</span><input id="ipw" type="password" placeholder="Password" autocomplete="current-password"><b id="eye">👁</b></label>
+      <div id="fcn"><label><input type="checkbox" id="icn"><span>I agree to share my name, email and phone with the owner of this app.</span></label></div>
+      <div class="lr"><label><input type="checkbox" id="irm" checked> Remember me</label><a id="fgt">Forgot password?</a></div>
+      <div id="lerr"></div>
+      <button class="gs" id="gs">Get Started</button>
+      <div class="or">or continue with</div>
+      <div class="soc"><button id="lc" disabled>🔷 Claude account</button><button id="lg">👤 Guest</button></div>
+      <div class="lnote">Accounts made here are saved on this device only. Sign-up needs a one-time code sent to your email or phone.</div>
+    </div>
+  </div>
+</div>
+
+<div id="loader" hidden><div class="ldw">
+  <div class="pcw"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#d9b87333" stroke-width="3"/><circle id="rg" cx="50" cy="50" r="45" fill="none" stroke="#d9b873" stroke-width="3" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283"/></svg><span id="pc">0%</span></div>
+  <div id="hl">hello</div>
+</div></div>
+
+<svg width="0" height="0" style="position:absolute"><filter id="wob"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.04" numOctaves="2" seed="3"><animate attributeName="baseFrequency" dur="3s" values="0.012 0.04;0.02 0.07;0.012 0.04" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" scale="46"/></filter></svg>
+
+<div id="site" hidden>
+  <nav class="nv"><span class="sgn">resumechecker</span><div><a data-act="work">WORK</a><a data-act="goabout">ABOUT</a><a data-act="tools">EXPERTISE</a><a data-act="gojournal">JOURNAL</a><a data-act="owner" id="nvo" hidden>OWNER</a><a data-act="theme">THEME</a><a data-act="lock">SIGN OUT</a></div></nav>
+  <header class="hr">
+    <div class="hello">hello, <span id="hn">friend</span></div>
+    <h1 class="big">CAREER</h1>
+    <h2 class="big2">COPILOT</h2>
+    <div class="trio"><span>RESUMES</span>•<span>ARTIFACTS</span>•<span>AI TOOLS</span></div>
+    <button class="cta" data-act="work">OPEN WORKSPACE ↗</button>
+    <div class="scr">SCROLL TO EXPLORE<br>↓</div>
+    <div class="bdg"><svg viewBox="0 0 100 100" width="104" height="104"><defs><path id="cp" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs><text font-size="9.5" font-weight="700" letter-spacing="2.2" fill="#0b0b0b"><textPath href="#cp">ATS SCORE • AI TOOLS • </textPath></text></svg><span>↗</span></div>
+  </header>
+  <section class="ab" id="about">
+    <div class="abh">ABOUT ME</div><div class="abl"></div>
+    <div class="gr"><div class="pf" id="av_i">R</div>
+      <div><h3>I build careers where <em>AI meets you.</em></h3>
+      <p>ResumeChecker is your AI career workspace — score and rewrite resumes, match them to jobs, practice interviews and keep every draft as an editable artifact inside a project.</p>
+      <p>Everything you make stays in your projects, ready to download.</p>
+      <div class="inf"><div><b id="st_p">1</b>PROJECTS</div><div><b id="st_a">0</b>ARTIFACTS</div><div><b id="st_t">22</b>AI TOOLS</div><div><b id="st_s">DEVICE</b>STORAGE</div></div>
+      <div class="own" id="own" hidden></div><button class="cta" data-act="work">OPEN WORKSPACE ↗</button></div></div>
+  </section>
+  <section class="jn" id="journal"><div class="abh">JOURNAL</div><div class="abl"></div><div class="jl" id="jl"></div></section>
+  <div class="ftr">ResumeChecker AI · AI can make mistakes — check details before applying.</div>
+</div>
+
+<div class="app" id="app" hidden>
+  <aside class="sb" id="sb">
+    <div class="logo"><b>📄</b>ResumeChecker AI</div>
+    <div class="sh">Projects <button data-act="npj" title="New project">＋</button></div>
+    <div id="pjs"></div>
+    <div class="sh">Chats <button data-act="nch" title="New chat">＋</button></div>
+    <div id="chs"></div>
+    <div class="grow"></div>
+    <button class="nb" data-act="tools">🧰 All AI tools</button>
+    <button class="nb" data-act="reg">📋 My registration</button>
+    <button class="nb" data-act="theme">🌓 Theme</button>
+    <div class="me" id="me"></div>
+    <button class="nb" data-act="lock">🔒 Sign out of app</button>
+  </aside>
+  <section class="main">
+    <div class="top"><button class="ib" id="menu" data-act="menu">☰</button><button class="ib" data-act="home">⌂ Home</button><h2 id="title"></h2>
+      <button class="ib" data-act="tools">🧰 Tools</button><button class="ib pri" data-act="panel">🗂 Artifacts</button></div>
+    <div class="msgs" id="msgs"><div class="in" id="in"></div></div>
+    <div class="cmp"><div class="in">
+      <div class="chips" id="chips"></div>
+      <div class="box"><button class="att" data-act="attach" title="Attach resume">📎</button>
+        <textarea id="tx" rows="1" placeholder="Message your career copilot… (paste your resume or attach a file)"></textarea>
+        <button class="send" id="send">➤</button></div>
+      <div class="note" id="sync"></div>
+    </div></div>
+  </section>
+  <aside class="pn" id="pn"></aside>
+</div>
+<div class="mo" id="mo"><div class="md" id="mb"></div></div>
+<input type="file" id="file" accept=".docx,.txt" hidden>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+const IN_CLAUDE=typeof window.claude!=="undefined";if(!IN_CLAUDE)window.claude={use:async()=>null};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const COL=["#c9a45c","#0b0b0b","#8a7a5c","#d9b873","#4a4436","#a68b4b"];
+const SKILLS=["python","java","c++","c#","javascript","typescript","react","node.js","html","css","sql","mongodb","postgresql","mysql","machine learning","deep learning","generative ai","llm","nlp","git","github","docker","aws","azure","gcp","fastapi","flask","django","streamlit","tensorflow","pytorch","pandas","numpy","scikit-learn","langchain","rag"];
+
+// ===== backend logic ported from Flask services =====
+function analyze(text){
+  const l=text.toLowerCase();
+  const sections={Contact:/@/.test(l)&&/\+?\d[\d\s().-]{8,}/.test(l),Summary:/\b(summary|objective|profile)\b/.test(l),Education:l.includes("education"),Experience:/\b(experience|employment|work history)\b/.test(l),Projects:/\bprojects?\b/.test(l),Skills:/\bskills?\b/.test(l)};
+  const skills=SKILLS.filter(s=>l.includes(s)).sort();
+  const q=(l.match(/\b\d+(?:\.\d+)?\s*%|\b\d+\+?\s*(?:users|projects|months|years|students)\b/g)||[]).length;
+  const av=(l.match(/\b(built|developed|created|designed|implemented|optimized|automated|led|deployed|improved|engineered)\b/g)||[]).length;
+  const score=Math.min(35+Math.min(skills.length*2,22)+Object.values(sections).filter(Boolean).length*5+Math.min(q*3,12)+Math.min(av,8),100);
+  return{score,skills,sections,word_count:text.trim().split(/\s+/).length,quantified_bullets:q,action_verbs:av};
+}
+function matchJob(rt,jt){
+  const r=rt.toLowerCase(),j=jt.toLowerCase();
+  const req=SKILLS.filter(s=>j.includes(s)).sort(),matched=req.filter(s=>r.includes(s)),missing=req.filter(s=>!r.includes(s));
+  let sc;
+  if(req.length)sc=Math.round(matched.length/req.length*100);
+  else{const w=t=>new Set(t.match(/[a-zA-Z][a-zA-Z0-9+#.-]{3,}/g)||[]);const a=w(r),b=w(j);let o=0;b.forEach(x=>a.has(x)&&o++);sc=Math.round(o/Math.max(1,b.size)*100)}
+  return{match_score:Math.min(sc,100),required_skills:req,matched_skills:matched,missing_skills:missing};
+}
+const chip=(a,c)=>a.length?a.map((x,i)=>`<span class="chip" style="background:${c||COL[i%6]}">${esc(x)}</span>`).join(""):'<span style="color:var(--mu)">none</span>';
+function scoreCard(r){const col=r.score>=75?"#10b981":r.score>=55?"#f59e0b":"#ef4444";
+  return `<div class="card"><div class="sc"><div class="ring" style="background:conic-gradient(${col} ${r.score*3.6}deg,var(--bd) 0)"><span>${r.score}</span></div><div><b>Resume Score</b><br><span style="color:var(--mu);font-size:13px">${r.word_count} words · ${r.quantified_bullets} metrics · ${r.action_verbs} action verbs</span></div></div>
+  <div class="sg">${Object.entries(r.sections).map(([k,v])=>`<div style="border-left:4px solid ${v?"#10b981":"#ef4444"}">${v?"✅":"⚠️"} ${k}</div>`).join("")}</div><p style="margin:10px 0 2px"><b>Skills found</b></p>${chip(r.skills)}</div>`}
+function matchCard(r){return `<div class="card"><b>Job match: ${r.match_score}%</b><div class="bar"><i style="width:${r.match_score}%"></i></div><p style="margin:8px 0 2px">✅ Matched</p>${chip(r.matched_skills,"#10b981")}<p style="margin:8px 0 2px">❌ Missing</p>${chip(r.missing_skills,"#ef4444")}</div>`}
+
+// ===== markdown =====
+function md(t){
+  const h=esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/`([^`]+)`/g,"<code>$1</code>");
+  const out=[];let list=null,m;
+  for(const ln of h.split("\n")){
+    if(m=ln.match(/^\s*[-*•]\s+(.*)/)){if(list!=="ul"){if(list)out.push(`</${list}>`);out.push("<ul>");list="ul"}out.push(`<li>${m[1]}</li>`);continue}
+    if(m=ln.match(/^\s*\d+[.)]\s+(.*)/)){if(list!=="ol"){if(list)out.push(`</${list}>`);out.push("<ol>");list="ol"}out.push(`<li>${m[1]}</li>`);continue}
+    if(list){out.push(`</${list}>`);list=null}
+    if(m=ln.match(/^#{1,4}\s+(.*)/))out.push(`<h3>${m[1]}</h3>`);else if(ln.trim())out.push(`<p>${ln}</p>`);
+  }
+  if(list)out.push(`</${list}>`);return out.join("");
+}
+
+// ===== tools catalog =====
+const TL=[
+ {k:"score",ic:"📊",nm:"Resume score & ATS check",ds:"Instant score, sections, skills",cat:"Resume",res:1,p:"Give me coaching on my resume score: top 5 fixes ranked by impact."},
+ {k:"build",ic:"🏗️",nm:"Create a resume",ds:"Fill a form, get a full resume",cat:"Resume",art:1},
+ {k:"improve",ic:"🚀",nm:"Improve full resume",ds:"Complete ATS-friendly rewrite",cat:"Resume",res:1,art:1,p:"Rewrite my ENTIRE resume as a polished, ATS-friendly version. Keep all facts true, use strong action verbs, add [X%] placeholders where numbers are missing. End with a short list of what changed. Title the artifact 'Improved Resume'."},
+ {k:"tailor",ic:"🎨",nm:"Tailor to a job",ds:"Rewrite for one job post",cat:"Resume",res:1,art:1,inp:"Paste the job description",p:"Rewrite my resume tailored to this job. Keep facts true, mirror keywords honestly, reorder to highlight best matches. Title it 'Tailored Resume'.\n\nJOB:"},
+ {k:"keywords",ic:"🔑",nm:"Keyword optimizer",ds:"Missing ATS keywords + where to add",cat:"Resume",res:1,inp:"Paste the job description",p:"List ATS keywords from this job missing in my resume, by priority, with exactly where to add each truthfully.\n\nJOB:"},
+ {k:"summary",ic:"🧠",nm:"Improve summary",ds:"3 sharp summary options",cat:"Resume",res:1,p:"Write 3 options for a sharp 3-line professional summary based on my resume."},
+ {k:"bullets",ic:"✍️",nm:"Rewrite my bullets",ds:"Strong, measurable bullets",cat:"Resume",res:1,p:"Rewrite my weakest experience bullets with strong action verbs and measurable results. Show before and after."},
+ {k:"proof",ic:"🔍",nm:"Proofread & tone",ds:"Grammar & weak phrases",cat:"Resume",res:1,p:"Proofread my resume: grammar issues, weak or vague phrases, passive voice, tense inconsistencies, with a corrected replacement for each."},
+ {k:"match",ic:"🎯",nm:"Job match & gap analysis",ds:"Skill match score + gaps",cat:"Jobs",res:1,inp:"Paste the job description",p:"Explain this job match and how to close skill gaps honestly."},
+ {k:"jdan",ic:"🧾",nm:"Job description analyzer",ds:"Decode must-haves & red flags",cat:"Jobs",inp:"Paste the job description",p:"Analyze this job post: must-have vs nice-to-have skills, seniority, hidden expectations, red flags, and what to emphasise.\n\nJOB:"},
+ {k:"cover",ic:"💌",nm:"Cover letter",ds:"Tailored to a role",cat:"Jobs",res:1,art:1,inp:"Paste the job description (and company)",p:"Write a tailored, human-sounding cover letter using only my real experience. Title it 'Cover Letter'.\n\nJOB:"},
+ {k:"email",ic:"✉️",nm:"Cold email & DM",ds:"Recruiter & referral outreach",cat:"Jobs",res:1,art:1,inp:"Role, company, and who you're contacting",p:"Write a cold outreach email (3 subject lines) plus a short LinkedIn DM, personalised from my resume. Title it 'Outreach'.\n\nDETAILS:"},
+ {k:"linkedin",ic:"💼",nm:"LinkedIn makeover",ds:"Headline, About, skills",cat:"Jobs",res:1,art:1,p:"Create a LinkedIn makeover: 3 headline options, a compelling About section, top 15 skills. Title it 'LinkedIn Profile'."},
+ {k:"post",ic:"📣",nm:"LinkedIn post",ds:"Share an achievement",cat:"Jobs",inp:"What do you want to post about?",p:"Write 2 engaging LinkedIn post options (with hook and hashtags) about:"},
+ {k:"interview",ic:"🎤",nm:"Mock interview",ds:"AI asks, scores & coaches",cat:"Interview",res:1,mode:"interview",p:"Start a mock interview with me based on my resume. Ask your first question."},
+ {k:"qa",ic:"❓",nm:"Interview Q&A bank",ds:"10 likely questions + answers",cat:"Interview",res:1,art:1,p:"Create 10 likely interview questions for my profile (technical, behavioral, HR) with strong model answers from my real experience (STAR for behavioral). Title it 'Interview Q&A Bank'."},
+ {k:"pitch",ic:"🗣️",nm:"Elevator pitch",ds:"30-second 'tell me about yourself'",cat:"Interview",res:1,p:"Write a 30-second and a 60-second 'tell me about yourself' pitch from my resume."},
+ {k:"thanks",ic:"🙏",nm:"Thank-you note",ds:"Post-interview follow-up",cat:"Interview",art:1,inp:"Role, interviewer, one thing you discussed",p:"Write a warm concise thank-you email (formal and friendly versions). Title it 'Thank-you Email'.\n\nDETAILS:"},
+ {k:"roadmap",ic:"🗺️",nm:"Career roadmap",ds:"30-60-90 day skill plan",cat:"Career",res:1,art:1,inp:"Target role",p:"Build a practical 30-60-90 day skill-gap roadmap with free resources and weekly milestones. Title it 'Career Roadmap'. Target role:"},
+ {k:"ideas",ic:"💡",nm:"Portfolio project ideas",ds:"Projects that impress recruiters",cat:"Career",res:1,p:"Suggest 6 portfolio projects that fill my skill gaps, with tech stack, features and resume bullet for each."},
+ {k:"salary",ic:"💰",nm:"Salary negotiation",ds:"Scripts & counter-offer",cat:"Career",inp:"Role, offer, location, your experience",p:"Give a salary negotiation plan: research steps, counter-offer script, email template, objection handling. Details:"},
+ {k:"resign",ic:"📝",nm:"Resignation letter",ds:"Professional & graceful",cat:"Career",art:1,inp:"Role, company, last day, tone",p:"Write a professional resignation letter. Title it 'Resignation Letter'. Details:"}];
+
+// ===== state / auth / persistence =====
+let S=null,me=null,userCap=null,db=null,sample=null,kind="",LK="",busy=false,ctrl=null,panelOpen=false,editing=false,tm,remember=true,dispName="friend";
+const toast=t=>{const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(e._t);e._t=setTimeout(()=>e.style.display="none",2400)};
+const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const newProj=(name,icon,ins)=>({id:uid(),name,icon:icon||"🚀",color:COL[Math.floor(Math.random()*6)],instructions:ins||"",resume:"",rname:"",jd:"",chats:[],artifacts:[]});
+const defState=()=>{const p=newProj("My Job Search","🚀");return{theme:"",pid:p.id,cid:null,aid:null,tab:"art",projects:[p]}};
+const P=()=>S.projects.find(p=>p.id===S.pid)||S.projects[0];
+const C=()=>P().chats.find(c=>c.id===S.cid);
+function save(){clearTimeout(tm);tm=setTimeout(persist,600)}
+async function persist(){
+  if(!S)return;const j=JSON.stringify(S);lsSet(LK,j);
+  if(kind==="claude"&&db&&me&&me.id){
+    try{await db.collection("data/users/"+me.id).doc("workspace").set({json:j,ts:Date.now()});$("sync").textContent="☁️ Synced to your account · AI can make mistakes"}
+    catch(e){$("sync").textContent="⚠️ Cloud save failed — saved on this device"}
+  }else $("sync").textContent="Saved on this device · AI can make mistakes";
+}
+function showView(v){$("site").hidden=v!=="site";$("app").hidden=v!=="app";if(v==="site")$("site").scrollTop=0}
+function intro(name){return new Promise(res=>{
+  const L=$("loader");L.hidden=false;L.classList.remove("out","hi");$("hl").textContent="hello, "+name;
+  let n=0;const step=()=>{n+=Math.max(1,Math.round((100-n)/12));if(n>100)n=100;$("pc").textContent=n+"%";$("rg").style.strokeDashoffset=283-283*n/100;
+    if(n<100)setTimeout(step,50);else{L.classList.add("hi");setTimeout(()=>{L.classList.add("out");setTimeout(()=>{L.hidden=true;res()},750)},1500)}};
+  step()})}
+async function enter(k,acct){
+  kind=k;LK="rc_ws_"+(k==="claude"&&me&&me.id?me.id:k==="local"?"l_"+acct.email:"guest");db=null;let loaded=null;
+  dispName=(k==="claude"?(me&&me.name):(acct&&acct.name))||"friend";
+  $("lamp").hidden=true;
+  if(k==="claude"){
+    try{db=await claude.use("db")}catch(e){db=null}
+    if(db){try{const x=await db.collection("data/users/"+me.id).doc("workspace").get();if(x.exists)loaded=JSON.parse(x.data().json)}catch(e){}}
+  }
+  if(!loaded){try{loaded=JSON.parse(lsGet(LK)||"null")}catch(e){}}
+  S=loaded&&loaded.projects&&loaded.projects.length?loaded:defState();
+  if(S.theme)document.documentElement.dataset.theme=S.theme;
+  lsSet("rc_sess",remember?JSON.stringify({kind:k,email:acct&&acct.email}):"");
+  if(!C()){const c=P().chats[0];S.cid=c?c.id:null}
+  if(acct&&acct.phone&&(!S.reg||acct.fresh))S.reg={email:acct.email,phone:acct.phone};
+  if(acct&&acct.fresh)registerProfile({name:acct.name,email:acct.email,phone:acct.phone,method:"device",verified:acct.verified}).then(ok=>toast(ok?"Registered ✔":"Account created on this device"));
+  const first=String(dispName).split(" ")[0],ini=esc(first.charAt(0).toUpperCase()||"R");
+  $("me").innerHTML=(k==="claude"&&me&&me.avatarUrl?`<img src="${esc(me.avatarUrl)}" alt="">`:`<div class="ini">${ini}</div>`)+`<div><b>${esc(dispName)}</b><small>${db?"☁️ Cloud sync on":k==="guest"?"Guest · this device":"This device"}</small></div>`;
+  $("hn").textContent=first;$("av_i").textContent=ini;
+  $("sync").textContent=db?"☁️ Synced to your account · AI can make mistakes":"Saved on this device · AI can make mistakes";
+  render();await intro(first);showView("site");loadOwnerCard();if(k==="claude"&&!S.reg)setTimeout(openReg,500);
+}
+
+// ===== render =====
+function renderSide(){
+  $("pjs").innerHTML=S.projects.map(p=>`<div class="pj ${p.id===P().id?"on":""}" data-act="pj" data-id="${p.id}"><i style="background:${p.color}">${esc(p.icon)}</i><span style="flex:1">${esc(p.name)}</span></div>`).join("");
+  $("chs").innerHTML=P().chats.map(c=>`<div class="it ${c.id===S.cid?"on":""}" data-act="ch" data-id="${c.id}"><span>💬 ${esc(c.title)}</span><b data-act="dch" data-id="${c.id}">×</b></div>`).join("")||'<div class="it" style="opacity:.5">No chats yet</div>';
+}
+function msgHTML(m,i,c){
+  const ac=(m.arts||[]).map(id=>{const a=P().artifacts.find(x=>x.id===id);return a?`<button class="ac" data-act="oa" data-id="${a.id}"><i>📄</i><span style="text-align:left"><b>${esc(a.title)}</b><small>Artifact · click to open &amp; edit</small></span></button>`:""}).join("");
+  const body=m.show?esc(m.show):(m.t?md(m.t):"");
+  const dots=(!m.t&&!m.card&&!(m.arts||[]).length&&m.r!=="user")?'<div class="dots"><span></span><span></span><span></span></div>':"";
+  const acts=m.r!=="user"&&m.t?`<div class="act"><button data-act="cp" data-i="${i}">📋 Copy</button><button data-act="rg" data-i="${i}">🔄 Redo</button><button data-act="sa" data-i="${i}">📄 Save as artifact</button><button data-act="q" data-q="Make this shorter and punchier">✂️ Shorter</button><button data-act="q" data-q="Make this more professional and confident">👔 Formal</button></div>`:"";
+  return `<div class="m ${m.r==="user"?"u":""}"><div class="av">${m.r==="user"?"🙂":"✨"}</div><div><div class="bu">${m.card||""}${body}${ac}${dots}</div>${acts}</div></div>`;
+}
+function renderMsgs(){
+  const c=C(),box=$("in"),near=$("msgs").scrollHeight-$("msgs").scrollTop-$("msgs").clientHeight<150;
+  if(!c||!c.msgs.length){
+    const p=P();
+    box.innerHTML=`<div class="hero"><h1>${esc(p.icon)} ${esc(p.name)}</h1><p>${p.resume?"Resume loaded ✔ — pick a tool or just ask.":"Attach 📎 or paste your resume to unlock everything."}</p></div><div class="grid">${TL.slice(0,11).map(t=>`<div class="tile" data-act="tool" data-k="${t.k}"><i style="background:${COL[TL.indexOf(t)%6]}22">${t.ic}</i><b>${t.nm}</b><span>${t.ds}</span></div>`).join("")}<div class="tile" data-act="tools"><i style="background:#7c3aed22">🧰</i><b>All ${TL.length} tools</b><span>Resume, jobs, interview, career</span></div></div>`;
+  }else box.innerHTML=c.msgs.map((m,i)=>msgHTML(m,i,c)).join("");
+  if(near||!c||!c.msgs.length)$("msgs").scrollTop=$("msgs").scrollHeight;
+}
+function renderPanel(){
+  const pn=$("pn");pn.classList.toggle("open",panelOpen);if(!panelOpen){return}
+  const p=P(),tab=S.tab;
+  let h=`<div class="tabs"><button class="${tab==="art"?"on":""}" data-act="tab" data-t="art">📄 Artifacts (${p.artifacts.length})</button><button class="${tab==="proj"?"on":""}" data-act="tab" data-t="proj">⚙️ Project</button><button data-act="panel" style="flex:0 0 44px">✕</button></div>`;
+  if(tab==="art"){
+    const a=p.artifacts.find(x=>x.id===S.aid);
+    if(!a){h+=`<div class="pb">${p.artifacts.length?p.artifacts.map(a=>`<button class="ac" style="width:100%" data-act="oa" data-id="${a.id}"><i>📄</i><span style="text-align:left"><b>${esc(a.title)}</b><small>${esc(a.type||"document")} · v${(a.v||[]).length+1} · ${new Date(a.at).toLocaleDateString()}</small></span></button>`).join(""):'<div style="color:var(--mu);text-align:center;padding:30px 10px">No artifacts yet.<br>Ask the AI to create a resume, cover letter or plan — it will appear here, editable and downloadable.</div>'}</div>`}
+    else h+=`<div class="tb"><button data-act="ab">←</button><button data-act="ed">${editing?"👁 Preview":"✏️ Edit"}</button><button data-act="acp">📋 Copy</button><button data-act="adw">⬇ Word</button><button data-act="adm">⬇ .md</button><button data-act="ahi">🕘 History</button><button data-act="adel">🗑</button></div>
+    <div class="pb"><b style="font-size:17px">${esc(a.title)}</b><div style="margin-top:8px">${editing?`<textarea id="aed" style="min-height:55vh">${esc(a.content)}</textarea>`:`<div class="bu doc">${md(a.content)}</div>`}</div></div>
+    <div class="tb"><button data-act="aq" data-q="Improve this artifact: stronger wording and impact">✨ Improve</button><button data-act="aq" data-q="Optimize this artifact for ATS keywords">🎯 ATS-optimize</button><button data-act="aq" data-q="Make this artifact shorter and fit one page">✂️ Shorter</button><button data-act="aq" data-q="Make the tone more confident and professional">👔 Formal</button></div>`;
+  }else h+=`<div class="pb"><label>Project name<input id="pn_n" value="${esc(p.name)}"></label><label>Icon (emoji)<input id="pn_i" value="${esc(p.icon)}" maxlength="4"></label>
+  <label>Custom instructions for this project<textarea id="pn_ins" rows="3" placeholder="e.g. Target: data science roles in Bhopal/Remote. Keep tone concise.">${esc(p.instructions)}</textarea></label>
+  <label>Project resume ${p.resume?`<b>(${esc(p.rname||"loaded")}, ${p.resume.split(/\s+/).length} words)</b>`:""}<textarea id="pn_r" rows="7" placeholder="Paste resume text, or attach a file">${esc(p.resume)}</textarea></label>
+  <div class="tb" style="padding:0 0 10px;border:0"><button data-act="attach">📎 Attach .docx/.txt</button><button data-act="score">📊 Score it</button></div>
+  <label>Target job description (used by every chat in this project)<textarea id="pn_jd" rows="6">${esc(p.jd)}</textarea></label>
+  <button class="ib" data-act="dpj" style="color:#ef4444">🗑 Delete project</button></div>`;
+  pn.innerHTML=h;
+}
+function updateSite(){if(!S)return;const n=S.projects.reduce((x,p)=>x+p.artifacts.length,0);$("st_p").textContent=S.projects.length;$("st_a").textContent=n;$("st_t").textContent=TL.length;$("st_s").textContent=db?"CLOUD":"DEVICE";
+  const it=S.projects.flatMap(p=>p.artifacts.map(a=>({a,p}))).sort((x,y)=>y.a.at-x.a.at).slice(0,6);
+  $("jl").innerHTML=it.length?it.map(({a,p})=>`<div class="jc" data-act="oaj" data-p="${p.id}" data-id="${a.id}"><small>${esc(p.name)} · ${new Date(a.at).toLocaleDateString()}</small><b>${esc(a.title)}</b><span>↗</span></div>`).join(""):'<div class="jc"><small>Nothing here yet</small><b>Create a resume in the workspace — it will appear here.</b></div>'}
+function render(){renderSide();renderMsgs();renderPanel();updateSite();
+  $("title").textContent=P().name+(C()?" · "+C().title:"");
+  $("chips").innerHTML=["Score my resume","What are my weakest points?","Create a cover letter","Start a mock interview"].map(x=>`<button data-act="q" data-q="${x}">${x}</button>`).join("");save()}
+
+// ===== modal =====
+let mOk=null;
+function modal(title,body,ok,fn){$("mb").innerHTML=`<h3>${title}</h3>${body}<div class="mf"><button class="ib" data-act="mx">${ok?"Cancel":"Close"}</button>${ok?`<button class="send" style="width:auto;padding:0 20px;border-radius:12px" data-act="mok">${ok}</button>`:""}</div>`;mOk=fn;$("mo").style.display="flex"}
+const closeM=()=>{$("mo").style.display="none";$("mb").style.maxWidth=""};
+
+// ===== AI =====
+function sysPrompt(c){
+  const p=P();
+  return `You are ResumeChecker AI, a friendly expert career coach inside a workspace app. Be concise and warm; use short markdown (headings, bold, bullets). Never invent experience the candidate lacks.
+PROJECT: ${p.name}${p.instructions?`\nPROJECT INSTRUCTIONS: ${p.instructions}`:""}
+${p.resume?`CANDIDATE RESUME:\n${p.resume.slice(0,12000)}`:"No resume is loaded — ask the user to attach or paste one if needed."}
+${p.jd?`TARGET JOB DESCRIPTION:\n${p.jd.slice(0,5000)}`:""}
+EXISTING ARTIFACTS: ${p.artifacts.map(a=>`[${a.id}] ${a.title}`).join("; ")||"none"}
+${c.mode==="interview"?"MODE: mock interview. Ask ONE question at a time. After each answer give a score /10, 2 strengths, 2 improvements, then the next question.":""}
+ARTIFACT FORMAT: for any full document (resume, cover letter, email, plan, Q&A bank) output it inside <artifact title="Short Title" type="resume|cover_letter|email|plan|notes|other"> ...complete markdown... </artifact> and keep the chat text outside it to 1-2 sentences. To revise an existing artifact, output <artifact id="THE_ID" title="Title"> with the FULL new content. Use these tags only for documents.`;
+}
+const ERR={not_granted:"Claude access wasn't allowed for this page. Reload the page and tap Allow when asked.",sampling_disabled:"Claude isn't available for this account or organisation.",rate_limited:"Usage limit reached or too many requests — wait a minute, then tap Redo.",session_expired:"Your Claude session expired — sign in to claude.ai again, then tap Redo.",prompt_too_large:"The resume or chat is too long — shorten it in the Project tab or start a new chat.",refused:"Claude couldn't help with that request — try rephrasing it.",empty_completion:"No answer came back — try rephrasing, or tap Redo.",upstream_error:"A connection hiccup interrupted the answer — tap Redo."};
+function applyText(p,msg,text){
+  const re=/<artifact([^>]*)>([\s\S]*?)(?:<\/artifact>|$)/g;let m,k=0;
+  while((m=re.exec(text))){
+    const at=m[1],g=n=>(at.match(new RegExp(n+'="([^"]*)"'))||[])[1];
+    let a=msg.arts[k]?p.artifacts.find(x=>x.id===msg.arts[k]):null;
+    if(!a){const ex=g("id")&&p.artifacts.find(x=>x.id===g("id"));
+      if(ex){a=ex;a.v=[{content:a.content,at:a.at},...(a.v||[])].slice(0,10)}
+      else{a={id:uid(),title:g("title")||"Untitled",type:g("type")||"other",content:"",v:[],at:Date.now()};p.artifacts.unshift(a)}
+      msg.arts[k]=a.id;S.aid=a.id;S.tab="art";panelOpen=true;editing=false}
+    a.content=m[2].trim();a.at=Date.now();k++;
+  }
+  msg.t=text.replace(re,"").replace(/<artifact[^>]*$/,"").replace(/<a(r(t(i(f(a(ct?)?)?)?)?)?)?$/,"").trim();
+  renderMsgs();renderPanel();
+}
+async function ask(c){
+  if(!sample){c.msgs.push({r:"ai",t:"AI isn't available in this view (it needs the Claude page). Scoring and job-match cards still work.",err:true});render();return}
+  const p=P(),turns=[];
+  c.msgs.forEach(m=>{const r=m.r==="user"?"user":"assistant";if(!m.t||m.err)return;if(turns.length&&turns[turns.length-1].role===r)turns[turns.length-1].content+="\n"+m.t;else turns.push({role:r,content:m.t})});
+  while(turns.length&&turns[0].role!=="user")turns.shift();
+  if(!turns.length||turns[turns.length-1].role!=="user")return;
+  turns[0].content=sysPrompt(c)+"\n\n---\n"+turns[0].content;
+  const msg={r:"ai",t:"",card:"",arts:[]};c.msgs.push(msg);busy=true;$("send").textContent="■";ctrl=new AbortController();renderMsgs();
+  try{
+    const r=await sample(turns,{cache:false,signal:ctrl.signal,onText:({text})=>applyText(p,msg,text)});
+    applyText(p,msg,r.text||"");
+    if(!msg.t)msg.t=msg.arts.length?"Done — I've created that for you. Open the artifact to edit or download it.":"Done.";
+    if(r.truncated)msg.t+="\n\n(The answer was cut short — ask me to continue.)";
+  }catch(e){
+    if(e&&e.text)applyText(p,msg,e.text);
+    if(e&&e.code==="cancelled")msg.t=msg.t||"Stopped.";
+    else{msg.err=true;msg.t=(msg.t?msg.t+"\n\n":"")+"⚠️ "+(ERR[e&&e.code]||(e&&e.message)||"Something went wrong — tap Redo.")}
+  }
+  busy=false;$("send").textContent="➤";render();
+}
+function ensureChat(){let c=C();if(!c){c={id:uid(),title:"New chat",mode:"",msgs:[]};P().chats.unshift(c);S.cid=c.id}return c}
+async function send(text,o={}){
+  text=text.trim();if(!text||busy)return;showView("app");const c=ensureChat(),p=P();
+  if(!p.resume&&text.length>400&&/(experience|education|skills)/i.test(text)){p.resume=text;p.rname="Pasted resume";toast("Resume saved to this project")}
+  if(o.mode)c.mode=o.mode;
+  c.msgs.push({r:"user",t:text,show:o.show});
+  if(c.title==="New chat")c.title=(o.show||text).slice(0,30);
+  if(o.cards)c.msgs.push({r:"ai",t:"",card:o.cards});
+  render();await ask(c);
+}
+
+// ===== tools =====
+const BF=[["name","Full name"],["email","Email"],["phone","Phone"],["location","City, Country"],["links","LinkedIn / GitHub / portfolio"],["role","Target job title"],["edu","Education (degree, college, year, CGPA)"],["exp","Experience (company, role, dates, what you did)"],["proj","Projects (name, tech, outcome)"],["skills","Skills (comma separated)"],["extra","Certifications / achievements"]];
+const AREA=["edu","exp","proj","extra"];
+function builder(){
+  modal("🏗️ Create your resume",BF.map(([k,l])=>`<label>${l}${AREA.includes(k)?`<textarea data-k="${k}" rows="3"></textarea>`:`<input data-k="${k}">`}</label>`).join("")+`<label>Style<select id="bst"><option>Modern ATS-friendly</option><option>Classic professional</option><option>Fresher / student</option><option>Senior / leadership</option></select></label>`,"Generate ✨",()=>{
+    const d={};document.querySelectorAll("#mb [data-k]").forEach(e=>d[e.dataset.k]=e.value.trim());
+    if(!d.name||!d.role){toast("Name and target role are required");return false}
+    send(`Create a complete professional resume (${$("bst").value} style) from these details. Use ONLY the given facts; suggest improvements in [brackets] where numbers are missing. Strong summary, action-verb bullets, ATS-friendly headings. Output it as an artifact titled 'Resume – ${d.name}'.\n\n`+BF.map(([k,l])=>d[k]?`${l}: ${d[k]}`:"").filter(Boolean).join("\n"),{show:"🏗️ Create a resume for "+d.name})});
+}
+function runTool(k){
+  const t=TL.find(x=>x.k===k);closeM();const p=P();
+  if(t.res&&!p.resume){toast("Add your resume first (📎 or Project tab)");S.tab="proj";panelOpen=true;renderPanel();return}
+  if(k==="build")return builder();
+  if(t.inp)return modal(t.ic+" "+t.nm,`<label>${t.inp}<textarea id="mi" style="min-height:150px">${k==="match"||k==="tailor"||k==="cover"||k==="keywords"||k==="jdan"?esc(p.jd):""}</textarea></label>`,"Run ✨",()=>{const v=$("mi").value.trim();if(v.length<3){toast("Add the details first");return false}
+    if(["match","tailor","cover","keywords","jdan"].includes(k))p.jd=v;go(t,v)});
+  go(t,"");
+}
+function go(t,v){
+  const o={show:t.ic+" "+t.nm+(v?": "+v.slice(0,60)+(v.length>60?"…":""):""),mode:t.mode};
+  if(t.k==="score"&&P().resume)o.cards=scoreCard(analyze(P().resume));
+  if(t.k==="match"&&P().resume)o.cards=matchCard(matchJob(P().resume,v));
+  send(t.p+(v?"\n"+v:"")+(t.k==="score"?"\nSCORE DATA: "+JSON.stringify(analyze(P().resume)):"")+(t.k==="match"?"\nMATCH DATA: "+JSON.stringify(matchJob(P().resume,v)):""),o);
+}
+function dl(name,mime,data){claude.use("downloads").then(d=>d?d.save({filename:name,data}):toast("Download unavailable")).catch(()=>toast("Download cancelled"))}
+const docHTML=(title,t)=>`<html><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Calibri,Arial;font-size:11pt}h3{color:#4c1d95;border-bottom:1px solid #ccc}</style></head><body>${md(t)}</body></html>`;
+const curArt=()=>P().artifacts.find(a=>a.id===S.aid);
+function attach(){$("file").click()}
+
+// ===== actions =====
+const A={
+ menu:()=>$("sb").classList.toggle("open"),
+ theme:()=>{const dark=getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()==="#0a0a0a";S.theme=dark?"light":"dark";document.documentElement.dataset.theme=S.theme;save()},
+ lock:()=>{lsSet("rc_sess","");persist();S=null;showView("none");$("ipw").value="";$("lamp").hidden=false;setLamp(1)},
+ pj:d=>{S.pid=d.id;S.cid=P().chats[0]?.id||null;S.aid=null;$("sb").classList.remove("open");render()},
+ ch:d=>{S.cid=d.id;$("sb").classList.remove("open");render()},
+ dch:d=>{const p=P();p.chats=p.chats.filter(c=>c.id!==d.id);if(S.cid===d.id)S.cid=p.chats[0]?.id||null;render()},
+ nch:()=>{const c={id:uid(),title:"New chat",mode:"",msgs:[]};P().chats.unshift(c);S.cid=c.id;$("sb").classList.remove("open");render()},
+ npj:()=>modal("📁 New project",`<label>Name<input id="np_n" placeholder="e.g. Data Analyst applications"></label><label>Icon (emoji)<input id="np_i" value="🎯" maxlength="4"></label><label>Instructions (optional)<textarea id="np_t" rows="3" placeholder="Target role, tone, constraints…"></textarea></label>`,"Create",()=>{const n=$("np_n").value.trim();if(!n){toast("Give it a name");return false}const p=newProj(n,$("np_i").value.trim(),$("np_t").value.trim());S.projects.push(p);S.pid=p.id;S.cid=null;S.aid=null;panelOpen=true;S.tab="proj";render()}),
+ dpj:()=>{if(S.projects.length<2){toast("Keep at least one project");return}modal("Delete project?",`<p>This removes "${esc(P().name)}", its chats and artifacts.</p>`,"Delete",()=>{S.projects=S.projects.filter(p=>p.id!==S.pid);S.pid=S.projects[0].id;S.cid=null;S.aid=null;render()})},
+ tools:()=>{const cats=[...new Set(TL.map(t=>t.cat))];modal("🧰 AI tools",cats.map(c=>`<div class="cat">${c}</div><div class="grid">${TL.filter(t=>t.cat===c).map(t=>`<div class="tile" data-act="tool" data-k="${t.k}"><i style="background:${COL[TL.indexOf(t)%6]}22">${t.ic}</i><b>${t.nm}</b><span>${t.ds}</span></div>`).join("")}</div>`).join(""),null)},
+ tool:d=>runTool(d.k),
+ mx:closeM,mok:()=>{const r=mOk&&mOk();if(r&&typeof r.then==="function"){r.then(v=>{if(v!==false)closeM()});return}if(r===false)return;closeM()},
+ panel:()=>{panelOpen=!panelOpen;renderPanel()},
+ tab:d=>{S.tab=d.t;renderPanel()},
+ attach,
+ score:()=>{if(!P().resume){toast("Add resume text first");return}send("Give me coaching on my resume score. SCORE DATA: "+JSON.stringify(analyze(P().resume)),{show:"📊 Resume score",cards:scoreCard(analyze(P().resume))})},
+ q:d=>{if(/score/i.test(d.q)&&!P().resume){toast("Add your resume first");return}if(/score my resume/i.test(d.q))return A.score();send(d.q)},
+ cp:d=>navigator.clipboard.writeText(C().msgs[+d.i].t).then(()=>toast("Copied"),()=>toast("Copy blocked")),
+ rg:d=>{const c=C();c.msgs.splice(+d.i);render();ask(c)},
+ sa:d=>{const m=C().msgs[+d.i],a={id:uid(),title:(m.t.split("\n").find(x=>x.trim())||"Note").replace(/[#*]/g,"").slice(0,50),type:"notes",content:m.t,v:[],at:Date.now()};P().artifacts.unshift(a);m.arts=[...(m.arts||[]),a.id];S.aid=a.id;S.tab="art";panelOpen=true;render();toast("Saved as artifact")},
+ oa:d=>{S.aid=d.id;S.tab="art";panelOpen=true;editing=false;render()},
+ ab:()=>{S.aid=null;renderPanel()},
+ ed:()=>{editing=!editing;renderPanel()},
+ acp:()=>navigator.clipboard.writeText(curArt().content).then(()=>toast("Copied"),()=>toast("Copy blocked")),
+ adw:()=>{const a=curArt();dl((a.title.replace(/\W+/g,"_")||"document")+".doc","application/msword",docHTML(a.title,a.content))},
+ adm:()=>{const a=curArt();dl((a.title.replace(/\W+/g,"_")||"document")+".md","text/markdown",a.content)},
+ adel:()=>{const p=P();p.artifacts=p.artifacts.filter(a=>a.id!==S.aid);S.aid=null;render()},
+ ahi:()=>{const a=curArt(),v=a.v||[];modal("🕘 Version history",v.length?v.map((x,i)=>`<div class="card"><b>${new Date(x.at).toLocaleString()}</b><div style="max-height:90px;overflow:hidden;color:var(--mu);font-size:13px">${esc(x.content.slice(0,200))}…</div><button class="ib" data-act="rest" data-i="${i}" style="margin-top:6px">Restore</button></div>`).join(""):"<p>No earlier versions yet. Edits made by the AI are saved here.</p>",null)},
+ rest:d=>{const a=curArt(),x=a.v[+d.i];a.v=[{content:a.content,at:a.at},...a.v.filter((_,i)=>i!==+d.i)].slice(0,10);a.content=x.content;a.at=Date.now();closeM();render();toast("Restored")},
+ aq:d=>{const a=curArt();send(`${d.q}. Update artifact "${a.title}" (id: ${a.id}) by outputting the full revised content in an <artifact id="${a.id}"> block.`,{show:"✨ "+d.q})}
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-act]");if(!el||!S&&!["mx","mok","otpsend"].includes(el.dataset.act))return;const f=A[el.dataset.act];if(f){e.stopPropagation();f(el.dataset)}});
+document.addEventListener("input",e=>{if(!S)return;const t=e.target,p=P();
+  if(t.id==="aed"){const a=curArt();if(a){a.content=t.value;a.at=Date.now();save()}}
+  if(t.id==="pn_n"){p.name=t.value||"Untitled";renderSide();$("title").textContent=p.name}
+  if(t.id==="pn_i")p.icon=t.value||"📁";if(t.id==="pn_ins")p.instructions=t.value;
+  if(t.id==="pn_r"){p.resume=t.value;p.rname=p.rname||"Pasted resume"}if(t.id==="pn_jd")p.jd=t.value;
+  if(t.id==="tx"){t.style.height="auto";t.style.height=Math.min(t.scrollHeight,150)+"px"}
+  if(t.id&&t.id.startsWith("pn_"))save()});
+document.addEventListener("change",e=>{if(e.target.id&&e.target.id.startsWith("pn_"))renderSide()});
+Object.assign(A,{owner:openOwner,reg:()=>{if(kind==='guest'){toast('Sign in with an account to register');return}openReg()},
+ owcsv:()=>{const r=window._owRows||[];const t=["name,email,phone,via,joined"].concat(r.map(x=>[x.name,x.email,x.phone,x.method,x.at?new Date(x.at).toISOString():""].map(csvCell).join(","))).join("\n");claude.use("downloads").then(d=>d?d.save({filename:"registrations.csv",data:t}):toast("Download unavailable")).catch(()=>toast("Download cancelled"))},
+ owem:()=>navigator.clipboard.writeText((window._owRows||[]).map(x=>x.email).filter(Boolean).join(", ")).then(()=>toast("Emails copied"),()=>toast("Copy blocked")),
+ owph:()=>navigator.clipboard.writeText((window._owRows||[]).map(x=>x.phone).filter(Boolean).join(", ")).then(()=>toast("Phones copied"),()=>toast("Copy blocked")),
+ work:()=>showView("app"),home:()=>showView("site"),goabout:()=>$("about").scrollIntoView({behavior:"smooth"}),gojournal:()=>$("journal").scrollIntoView({behavior:"smooth"}),
+ oaj:d=>{S.pid=d.p;S.aid=d.id;S.tab="art";S.cid=P().chats[0]?.id||null;panelOpen=true;editing=false;showView("app");render()}});
+$("send").onclick=()=>{if(busy){ctrl&&ctrl.abort();return}const v=$("tx").value;$("tx").value="";$("tx").style.height="auto";send(v)};
+$("tx").onkeydown=e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("send").click()}};
+$("file").onchange=async e=>{const f=e.target.files[0];if(!f||!S)return;
+  try{const p=P();p.resume=/\.docx$/i.test(f.name)?(await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value:await f.text();p.rname=f.name;render();toast("Resume loaded ✔")}
+  catch(x){toast("Couldn't read that file — paste the text instead")}e.target.value=""};
+
+
+// ===== registration (email + phone) & owner console =====
+let isOwn=false,regDb=undefined;
+const getDb=async()=>{if(regDb!==undefined)return regDb;try{regDb=await claude.use("db")}catch(e){regDb=null}return regDb};
+const okPhone=v=>/^\+?\d{10,14}$/.test(String(v).replace(/[\s\-().]/g,""));
+const cleanPhone=v=>String(v).replace(/[\s\-().]/g,"");
+async function registerProfile(pr){
+  const d=await getDb();
+  if(!d||!me||!me.id)return false;
+  try{await d.collection("registry").doc(me.id).set({name:pr.name||"",email:pr.email||"",phone:pr.phone||"",method:pr.method||"",verified:pr.verified||"",at:Date.now(),consent:true});return true}
+  catch(e){return false}
+}
+function openReg(){
+  modal("📋 Complete your registration",`<p style="color:var(--mu);font-size:13px;margin:0 0 10px">Add your email and phone so the app owner can reach you. Only the owner can see them.</p><label>Email<input id="rg_e" type="email" value="${esc((S.reg&&S.reg.email)||(me&&me.email)||"")}"></label><label>Phone (with country code)<input id="rg_p" type="tel" placeholder="+91 98765 43210" value="${esc((S.reg&&S.reg.phone)||"")}"></label><label style="display:flex;gap:8px;align-items:flex-start"><input id="rg_c" type="checkbox" style="width:auto;margin-top:3px"><span>I agree to share my name, email and phone with the owner of this app.</span></label>`,"Register",()=>{
+    const e=$("rg_e").value.trim().toLowerCase(),ph=$("rg_p").value.trim();
+    if(!/^\S+@\S+\.\S+$/.test(e)){toast("Enter a valid email");return false}
+    if(!okPhone(ph)){toast("Enter a valid phone number (10–14 digits)");return false}
+    if(!$("rg_c").checked){toast("Please tick the consent box");return false}
+    S.reg={email:e,phone:cleanPhone(ph)};save();
+    registerProfile({name:dispName,email:e,phone:S.reg.phone,method:kind}).then(ok=>toast(ok?"Registered ✔":"Saved on this device (registry unavailable)"))})
+}
+async function loadOwnerCard(){
+  const d=await getDb();if(!d)return;
+  try{const x=await d.collection("site").doc("owner").get();if(x.exists){const o=x.data();const el=$("own");el.hidden=false;
+    el.innerHTML=`<b>ARCHITECT &amp; OWNER</b>${esc(o.name||"")}${o.title?" · "+esc(o.title):""}${o.bio?"<br>"+esc(o.bio):""}${o.contact?"<br>"+esc(o.contact):""}`}}catch(e){}
+}
+function csvCell(v){return '"'+String(v==null?"":v).replace(/"/g,'""')+'"'}
+async function openOwner(){
+  const d=await getDb();
+  if(!d){toast("Registry isn't available in this view");return}
+  let rows=[];
+  try{const q=await d.collection("registry").get();rows=q.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(b.at||0)-(a.at||0))}
+  catch(e){toast("Couldn't load the registry: "+((e&&e.message)||"error"));return}
+  let own={};try{const x=await d.collection("site").doc("owner").get();if(x.exists)own=x.data()}catch(e){}
+  const draw=q=>{const f=rows.filter(r=>!q||(r.name+r.email+r.phone).toLowerCase().includes(q.toLowerCase()));
+    $("ow_t").innerHTML=f.length?f.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.name||"")}</td><td>${esc(r.email||"")}</td><td>${esc(r.phone||"")}</td><td>${r.verified?"✅ "+esc(r.verified):"—"}</td><td>${esc(r.method||"")}</td><td>${r.at?new Date(r.at).toLocaleDateString():""}</td></tr>`).join(""):'<tr><td colspan="7" style="color:var(--mu)">No registrations yet. People appear here after they register while signed in with Claude.</td></tr>'};
+  modal("🛡️ Owner console",`<p style="color:var(--mu);font-size:13px;margin:0 0 8px"><b>${rows.length}</b> registered · visible only to you, the owner.</p>
+  <input id="ow_q" placeholder="Search name, email or phone…" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);margin-bottom:8px">
+  <div class="tw"><table class="tbl"><thead><tr><th>#</th><th>NAME</th><th>EMAIL</th><th>PHONE</th><th>VERIFIED</th><th>VIA</th><th>JOINED</th></tr></thead><tbody id="ow_t"></tbody></table></div>
+  <div class="tb" style="padding:10px 0"><button data-act="owcsv">⬇ Export CSV</button><button data-act="owem">📋 Copy emails</button><button data-act="owph">📋 Copy phones</button></div>
+  <div class="cat">Public owner profile (shown on the About section)</div>
+  <label>Name<input id="op_n" value="${esc(own.name||"")}"></label><label>Title<input id="op_t" placeholder="e.g. Founder & Architect" value="${esc(own.title||"")}"></label><label>Short bio<textarea id="op_b" rows="2">${esc(own.bio||"")}</textarea></label><label>Public contact (optional)<input id="op_c" value="${esc(own.contact||"")}"></label>`,"Save profile",async()=>{
+    try{await d.collection("site").doc("owner").set({name:$("op_n").value.trim(),title:$("op_t").value.trim(),bio:$("op_b").value.trim(),contact:$("op_c").value.trim()});toast("Owner profile saved");loadOwnerCard()}catch(e){toast("Couldn't save the profile")}});
+  $("mb").style.maxWidth="900px";draw("");$("ow_q").oninput=e=>draw(e.target.value);
+  window._owRows=rows;
+}
+
+
+// ===== OTP verification (email or phone) =====
+// null  -> running inside Claude: no email/SMS can be sent from this page (demo mode)
+// ""    -> same-origin Flask backend (see /api/otp/send, /api/otp/verify in the zip)
+const OTP_API=IN_CLAUDE?null:"";
+let OT=null,otTimer=null,pendingSU=null;
+async function startOtp(pd){
+  pendingSU=pd;OT={ch:"email",dest:pd.em,sent:false,last:0,tries:0,demo:null};
+  modal("🔐 Verify to create your account",`<p style="color:var(--mu);font-size:13px;margin:0 0 10px">Choose where to receive a 6-digit code. Verifying either one is enough.</p>
+  <div class="chs"><label><input type="radio" name="otc" value="email" checked> ✉️ ${esc(pd.em)}</label><label><input type="radio" name="otc" value="phone"> 📱 ${esc(pd.ph)}</label></div>
+  <div class="tb" style="padding:0 0 8px;border:0"><button data-act="otpsend" id="otsb">Send code</button><span id="ot_t" style="font-size:12.5px;color:var(--mu);align-self:center"></span></div>
+  <div id="ot_d"></div>
+  <input id="ot_c" class="otpin" inputmode="numeric" maxlength="6" placeholder="••••••" style="width:100%;padding:10px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx)">`,"Verify & create account",verifyOtp);
+  document.querySelectorAll('input[name="otc"]').forEach(r=>r.onchange=()=>{OT.ch=r.value;OT.dest=r.value==="email"?pendingSU.em:pendingSU.ph;OT.sent=false;$("ot_d").innerHTML="";$("ot_c").value=""});
+  clearInterval(otTimer);otTimer=setInterval(()=>{const e=$("ot_t");if(!e||!OT){clearInterval(otTimer);return}
+    if(!OT.sent){e.textContent="";return}const left=Math.max(0,Math.ceil((OT.exp-Date.now())/1000)),w=Math.max(0,Math.ceil((OT.last+30000-Date.now())/1000));
+    e.textContent=left?`Expires in ${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`+(w?` · resend in ${w}s`:""):"Code expired — send a new one";
+    $("otsb").textContent=OT.sent?"Resend code":"Send code"},500);
+}
+A.otpsend=async()=>{
+  if(!OT)return;const now=Date.now();
+  if(OT.sent&&now-OT.last<30000){toast("Please wait before resending");return}
+  if(OTP_API!==null){
+    try{const r=await fetch(OTP_API+"/api/otp/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({channel:OT.ch,destination:OT.dest})});const j=await r.json();
+      if(!j.success){toast(j.message||j.error||"Couldn't send the code");return}
+      $("ot_d").innerHTML=`<div style="font-size:12.5px;color:var(--mu)">Code sent to ${esc(OT.dest)}.</div>`}
+    catch(e){toast("Couldn't reach the server");return}
+  }else{
+    const code=String(crypto.getRandomValues(new Uint32Array(1))[0]%1000000).padStart(6,"0"),salt=uid();
+    OT.hash=await hash(code,salt);OT.salt=salt;
+    $("ot_d").innerHTML=`<div class="demo">⚠️ <b>Demo mode</b> — this page can't send email or SMS, so your code is shown here instead:<br><b>${code}</b><br>For real delivery, run the Flask backend from the zip.</div>`;
+  }
+  OT.sent=true;OT.last=now;OT.exp=now+300000;OT.tries=0;$("ot_c").value="";$("ot_c").focus();
+};
+async function verifyOtp(){
+  if(!OT||!OT.sent){toast("Send the code first");return false}
+  if(Date.now()>OT.exp){toast("That code expired — send a new one");return false}
+  const c=$("ot_c").value.trim();if(!/^\d{6}$/.test(c)){toast("Enter the 6-digit code");return false}
+  if(OT.tries>=5){toast("Too many wrong tries — send a new code");return false}
+  let token=null;
+  if(OTP_API!==null){
+    try{const r=await fetch(OTP_API+"/api/otp/verify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({channel:OT.ch,destination:OT.dest,code:c})});const j=await r.json();
+      if(!j.success){toast(j.error||"Incorrect code");return false}token=j.token}
+    catch(e){toast("Couldn't reach the server");return false}
+  }else if(await hash(c,OT.salt)!==OT.hash){OT.tries++;toast("Incorrect code ("+(5-OT.tries)+" tries left)");return false}
+  const pd=pendingSU,ch=OT.ch;clearInterval(otTimer);OT=null;
+  if(token){try{await fetch(OTP_API+"/api/auth/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:pd.nm,email:pd.em,phone:pd.ph,password:pd.pw,token})})}catch(e){}}
+  closeM();toast(ch==="email"?"Email verified ✔":"Phone verified ✔");finishSignup(pd,ch);
+}
+async function finishSignup(pd,ch){
+  const U=USERS(),salt=uid()+uid();
+  U[pd.em]={name:pd.nm,phone:pd.ph,verified:ch,salt,h:await hash(pd.pw,salt)};lsSet("rc_users",JSON.stringify(U));
+  remember=$("irm").checked;enter("local",{name:pd.nm,email:pd.em,phone:pd.ph,fresh:true,verified:ch});
+}
+
+// ===== lamp login =====
+const LCOL=["","#f5c542","#22d3ee","#e11df0"];let lampI=0,tabUp=false;
+$("dusts").innerHTML=Array.from({length:14},(_,i)=>`<i class="dust" style="left:${10+Math.random()*80}%;top:${25+Math.random()*65}%;animation-delay:${(i*.5).toFixed(1)}s"></i>`).join("");
+function setLamp(i){lampI=i;const L=$("lamp");L.classList.toggle("lon",i>0);if(i)L.style.setProperty("--lc",LCOL[i]);$("hint").style.display=i?"none":"block"}
+$("chain").onclick=()=>{$("chain").classList.add("pull");setTimeout(()=>$("chain").classList.remove("pull"),180);setLamp((lampI+1)%4)};
+setTimeout(()=>{if(!lampI&&!$("lamp").hidden)setLamp(1)},4000);
+function setTab(up){tabUp=up;$("tsi").classList.toggle("sel",!up);$("tsu").classList.toggle("sel",up);$("lcard").classList.toggle("up",up);
+  $("lh").textContent=up?"Create Account":"Welcome back";$("lp").textContent=up?"Join and build your career workspace":"Sign in to continue to your workspace";$("gs").textContent=up?"Create & Get Started":"Get Started";if(!up)$("icn").checked=false;$("lerr").textContent="";$("ipw").autocomplete=up?"new-password":"current-password"}
+$("tsi").onclick=()=>setTab(false);$("tsu").onclick=()=>setTab(true);
+$("eye").onclick=()=>{const i=$("ipw");i.type=i.type==="password"?"text":"password"};
+$("fgt").onclick=()=>$("lerr").textContent="Device accounts can't be recovered — create a new account, or use your Claude account.";
+const USERS=()=>{try{return JSON.parse(lsGet("rc_users")||"{}")}catch(e){return{}}};
+async function hash(pw,salt){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(salt+pw));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function submitAuth(){
+  const em=$("iem").value.trim().toLowerCase(),pw=$("ipw").value,nm=$("inm").value.trim(),ph=$("iph").value.trim(),err=t=>{$("lerr").textContent=t};
+  if(!/^\S+@\S+\.\S+$/.test(em))return err("Enter a valid email address.");
+  if(pw.length<6)return err("Password needs at least 6 characters.");
+  const U=USERS();let acct;
+  try{
+    if(tabUp){if(!nm)return err("Enter your full name.");if(!okPhone(ph))return err("Enter a valid phone number with 10–14 digits.");if(!$("icn").checked)return err("Please tick the consent box to continue.");if(U[em])return err("That email already has an account here — sign in instead.");
+      startOtp({nm,em,ph:cleanPhone(ph),pw});return}
+    else{const u=U[em];if(!u)return err("No account on this device with that email — create one first.");if(await hash(pw,u.salt)!==u.h)return err("Wrong password.");acct={name:u.name,email:em,phone:u.phone}}
+  }catch(e){return err("Sign-in isn't supported in this browser view — try Guest or Claude account.")}
+  $("lerr").textContent="";remember=$("irm").checked;enter("local",acct);
+}
+$("gs").onclick=submitAuth;
+["iem","ipw","inm"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")submitAuth()}));
+$("lc").onclick=()=>{remember=$("irm").checked;enter("claude")};
+$("lg").onclick=()=>{remember=$("irm").checked;enter("guest",{name:"Guest"})};
+(async()=>{
+  let sess=null;try{sess=JSON.parse(lsGet("rc_sess")||"null")}catch(e){}
+  if(sess)$("lamp").hidden=true;
+  try{userCap=await claude.use("user");me=await userCap.me();try{isOwn=await userCap.isOwner()}catch(e){isOwn=false}}catch(e){me=null}
+  $("nvo").hidden=!isOwn;
+  try{sample=await claude.use("sample")}catch(e){sample=null}
+  if(me&&me.id){$("lc").disabled=false;$("lc").textContent="🔷 "+(me.name?me.name.split(" ")[0]:"Claude account")}else $("lc").textContent="🔷 Claude (n/a)";
+  if(sess&&sess.kind==="claude"&&me&&me.id)enter("claude");
+  else if(sess&&sess.kind==="guest")enter("guest",{name:"Guest"});
+  else if(sess&&sess.kind==="local"&&USERS()[sess.email])enter("local",{name:USERS()[sess.email].name,email:sess.email});
+  else{$("lamp").hidden=false;}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ResumeChecker — AI Career Studio</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <a class="brand"><span>R</span> ResumeChecker</a>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#checker">Checker</a>
+    <a href="#interview">Interview</a>
+    <a class="nav-btn" href="#checker">Start checking</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <small>PURPLE-GREY AI CAREER STUDIO</small>
+    <h1>Your resume.<br><em>Checked smarter.</em></h1>
+    <p>Analyze your resume, compare it with job requirements, find skill gaps, and practice personalized interviews.</p>
+    <a class="btn" href="#checker">Check my resume →</a>
+    <div class="trust">✓ PDF & DOCX &nbsp;&nbsp; ✓ ATS signals &nbsp;&nbsp; ✓ AI interview</div>
+  </div>
+
+  <div class="preview">
+    <div class="dots">● ● ● <b>RESUMECHECKER AI</b></div>
+    <div class="score-circle">86<small>/100</small></div>
+    <h3>Resume strength</h3>
+    <p>Strong foundation with targeted improvements available.</p>
+    <div class="bar"><i style="width:91%"></i></div>
+    <div class="bar"><i style="width:82%"></i></div>
+  </div>
+</section>
+
+<section id="features" class="section">
+  <small>CORE FEATURES</small>
+  <h2>A serious backend behind a simple interface.</h2>
+
+  <div class="cards">
+    <article><b>01</b><h3>Resume intelligence</h3><p>Extracts PDF/DOCX text and checks structure, skills and ATS signals.</p></article>
+    <article><b>02</b><h3>Job matching</h3><p>Compares your resume with job requirements and finds skill gaps.</p></article>
+    <article><b>03</b><h3>AI interview</h3><p>Gemini-powered personalized interview questions and answer evaluation.</p></article>
+    <article><b>04</b><h3>History</h3><p>Stores analysis and interview results in SQLite for later dashboard use.</p></article>
+  </div>
+</section>
+
+<section id="checker" class="section dark">
+  <small>RESUME CHECKER</small>
+  <h2>Run a complete analysis.</h2>
+  <p>Upload your resume and optionally add a target job description.</p>
+
+  <div class="workspace">
+    <form id="resumeForm">
+      <label class="dropzone" for="resume">
+        <strong>↑</strong>
+        <h3 id="fileTitle">Drop your resume here</h3>
+        <span id="fileInfo">PDF / DOCX · Maximum 10 MB</span>
+      </label>
+
+      <input id="resume" type="file" accept=".pdf,.docx" hidden>
+
+      <textarea id="jobDescription"
+        placeholder="Optional: paste the target job description here..."></textarea>
+
+      <button class="btn full">Analyze resume →</button>
+    </form>
+
+    <aside>
+      <div class="check">✓</div>
+      <h3>Backend-powered analysis</h3>
+      <p>Your browser sends the resume to Flask APIs. The backend parses the document, performs analysis and stores results.</p>
+      <p>✓ PDF/DOCX extraction</p>
+      <p>✓ Skill matching</p>
+      <p>✓ AI interview APIs</p>
+      <p>✓ SQLite persistence</p>
+    </aside>
+  </div>
+</section>
+
+<section id="results" class="section hidden">
+  <small>ANALYSIS RESULTS</small>
+  <h2>Your resume report.</h2>
+
+  <div class="results">
+    <div class="metric">
+      <small>RESUME SCORE</small>
+      <strong id="score">--</strong>
+      <div class="meter"><i id="scoreBar"></i></div>
+    </div>
+
+    <div class="metric stats">
+      <div>Words<b id="words">--</b></div>
+      <div>Skills<b id="skillCount">--</b></div>
+      <div>Job match<b id="jobScore">--</b></div>
+    </div>
+  </div>
+
+  <div class="results">
+    <div class="panel">
+      <h3>Detected skills</h3>
+      <div id="skills"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Resume sections</h3>
+      <div id="sections"></div>
+    </div>
+  </div>
+
+  <div class="results">
+    <div class="panel">
+      <h3>Improvement plan</h3>
+      <ul id="suggestions"></ul>
+    </div>
+
+    <div class="panel">
+      <h3>Job skill gaps</h3>
+      <div id="gaps"></div>
+    </div>
+  </div>
+</section>
+
+<section id="interview" class="section">
+  <small>AI INTERVIEW</small>
+  <h2>Practice against your own resume.</h2>
+
+  <div class="interview-box">
+    <input id="interviewFile" type="file" accept=".pdf,.docx">
+
+    <select id="interviewType">
+      <option>Technical</option>
+      <option>Behavioral</option>
+      <option>HR</option>
+      <option>Project</option>
+      <option>Generative AI</option>
+      <option>Machine Learning</option>
+    </select>
+
+    <button class="btn" id="questionButton">Generate question</button>
+
+    <div id="questionArea" class="hidden">
+      <hr>
+      <small>AI INTERVIEW QUESTION</small>
+      <h3 id="question"></h3>
+
+      <textarea id="answer"
+        placeholder="Write your answer here..."></textarea>
+
+      <button class="btn" id="evaluateButton">Evaluate answer</button>
+
+      <div id="feedback"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>ResumeChecker</b>
+  <span>AI-powered resume and interview platform</span>
+</footer>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
